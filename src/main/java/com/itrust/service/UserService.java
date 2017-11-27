@@ -10,5 +10,7 @@ public interface UserService {
 	void addUser(UserReq userReq);
 	void updateUser(UserReq userReq);
 	void deleteUser(int userId);
-	List<UserVO> queryUsers(int userAge);
+	void deleteUsers(int[] userIds);
+	List<UserVO> queryUsers();
+	UserVO queryUserById(int userId);
 }

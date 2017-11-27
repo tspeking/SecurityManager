@@ -37,8 +37,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserVO> queryUsers(int userAge) {
-		return userDao.queryUsers(userAge);
+	public List<UserVO> queryUsers() {
+		return userDao.queryUsers();
+	}
+
+	@Override
+	public UserVO queryUserById(int userId) {
+		return userDao.queryUserById(userId);
+	}
+
+	@Override
+	public void deleteUsers(int[] userIds) {
+		userDao.deleteUsers(userIds);
 	}
 
 }

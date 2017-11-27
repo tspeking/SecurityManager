@@ -8,10 +8,11 @@ import com.itrust.vo.user.UserReq;
 import com.itrust.vo.user.UserVO;
 
 public interface UserDao {
-	int createIndustryListTable(@Param("tableName") String tableName);
 	int createUser(@Param("tableName") String tableName);
 	int addUser(UserReq userReq);
 	int updateUser(UserReq userReq);
 	int deleteUser(int userId);
-	List<UserVO> queryUsers(int userAge);
+	int deleteUsers(@Param("userIds") int[] userIds);
+	List<UserVO> queryUsers();
+	UserVO queryUserById(int userId);
 }

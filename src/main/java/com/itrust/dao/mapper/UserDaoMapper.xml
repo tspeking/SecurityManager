@@ -30,9 +30,19 @@
 	<delete id="deleteUser">
 		delete from user_info where USERID = #{userId,jdbcType=BIGINT}
 	</delete>
+	<delete id="deleteUsers">
+		delete from user_info where USERID in (
+		<foreach collection="userIds" index="index" item="item" separator=",">
+			#{item}
+		</foreach>)
+	</delete>
 	<select id="queryUsers" resultMap="userRecordMap">
 		SELECT USERID,USERNAME,USERADDR,USERSEX,USERAGE 
 		FROM user_info 
-		WHERE  USERAGE > #{userAge,jdbcType=BIGINT}
+	</select>
+	<select id="queryUserById" resultMap="userRecordMap">
+		SELECT USERID,USERNAME,USERADDR,USERSEX,USERAGE 
+		FROM user_info 
+		WHERE  USERID = #{userId,jdbcType=BIGINT}
 	</select>
 </mapper>

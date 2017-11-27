@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,42 +29,59 @@ public class UserController extends BaseController{
 	
 	@RequestMapping(value = "/createUser",method=RequestMethod.POST)
 	@ResponseBody
-	public String createUser(HttpServletRequest request, HttpServletResponse response) {
+	public String createUser() {
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 创建表");
 		userService.createUserTable();
 		
 		return "创建用户成功";
 	}
 	
-	@RequestMapping(value = "/addUser",method=RequestMethod.POST)
+	@RequestMapping(value = "/user",method=RequestMethod.POST)
 	@ResponseBody
-	public String addUser(UserReq userReq,HttpServletRequest request, HttpServletResponse response) {
+	public String addUser(UserReq userReq) {
 		userService.addUser(userReq);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 添加用户成功");
 		return "添加用户成功";
 	}
 	
-	@RequestMapping(value = "/updateUser",method=RequestMethod.POST)
+	@RequestMapping(value = "/user",method=RequestMethod.PUT)
 	@ResponseBody
-	public String updateUser(UserReq userReq,HttpServletRequest request, HttpServletResponse response) {
+	public String updateUser(UserReq userReq) {
 		userService.updateUser(userReq);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 更新用户成功");
 		return "更新用户成功";
 	}
 	
-	@RequestMapping(value = "/deleteUser",method=RequestMethod.POST)
+	@RequestMapping(value = "/user/{userId}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public String deleteUser(int userId,HttpServletRequest request, HttpServletResponse response) {
+	public String deleteUser(@PathVariable("userId") int userId) {
 		userService.deleteUser(userId);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 删除用户成功");
 		return "删除用户成功";
 	}
 	
-	@RequestMapping(value = "/queryUsers",method=RequestMethod.POST)
+	@RequestMapping(value = "/users/{userIds}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public String queryUsers(int userAge,HttpServletRequest request, HttpServletResponse response) {
-		List<UserVO> users = userService.queryUsers(userAge);
+	public String deleteUsers(@PathVariable("userIds") int[] userIds) {
+		userService.deleteUsers(userIds);
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 批量删除用户成功" + userIds[0] + "   " + userIds[1]);
+		return "批量删除用户成功";
+	}
+	
+	@RequestMapping(value = "/user/{userId}",method=RequestMethod.GET)
+	@ResponseBody
+	public String queryOneUser(@PathVariable int userId) {
+		UserVO user = userService.queryUserById(userId);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 查询用户成功");
+		return user.toString();
+	}
+	
+	@RequestMapping(value = "/users",method=RequestMethod.GET)
+	@ResponseBody
+	public String queryUsers(HttpServletRequest request, HttpServletResponse response) {
+		List<UserVO> users = userService.queryUsers();
+		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 批量查询用户成功");
 		return users.toString();
 	}
+
 }
