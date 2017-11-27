@@ -1,6 +1,8 @@
 package com.itrust.controller.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.itrust.controller.BaseController;
 import com.itrust.service.UserService;
 import com.itrust.vo.user.UserReq;
@@ -57,7 +60,11 @@ public class UserController extends BaseController{
 	public String deleteUser(@PathVariable("userId") int userId) {
 		userService.deleteUser(userId);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 删除用户成功");
-		return "删除用户成功";
+		Map<String,String> result = new HashMap<String,String>();
+		result.put("result", "1");
+		result.put("msg", "删除成功");
+		
+		return JSON.toJSONString(result);
 	}
 	
 	@RequestMapping(value = "/users/{userIds}",method=RequestMethod.DELETE)
@@ -73,7 +80,7 @@ public class UserController extends BaseController{
 	public String queryOneUser(@PathVariable int userId) {
 		UserVO user = userService.queryUserById(userId);
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 查询用户成功");
-		return user.toString();
+		return JSON.toJSONString(user);
 	}
 	
 	@RequestMapping(value = "/users",method=RequestMethod.GET)
@@ -81,7 +88,7 @@ public class UserController extends BaseController{
 	public String queryUsers(HttpServletRequest request, HttpServletResponse response) {
 		List<UserVO> users = userService.queryUsers();
 		logger.info(">>>>>>>>>>>>>>>>>>>>>>>>> 批量查询用户成功");
-		return users.toString();
+		return JSON.toJSONString(users);
 	}
 
 }
