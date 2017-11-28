@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.itrust.controller.BaseController;
-import com.itrust.service.UserService;
+import com.itrust.service.user.UserService;
 import com.itrust.vo.user.UserReq;
 import com.itrust.vo.user.UserVO;
 
